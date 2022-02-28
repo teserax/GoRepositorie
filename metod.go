@@ -20,7 +20,16 @@ type Persona struct {
 // 	Quantity int
 // 	Price    string
 // }
+func (p *Persona) addFio(FIO string) {
 
+	p.FIO = FIO
+
+}
+func (p *Persona) addAddress(Address string) {
+
+	p.Address = Address
+
+}
 func newPersona(Id, FIO, Address string) Persona {
 	return Persona{
 		Id:      Id,
@@ -59,5 +68,8 @@ func main() {
 	err = json.Unmarshal(b[2], &persona3)
 
 	persona4 := newPersona("", "", "")
+
+	persona4.addFio("Serghei Muntenu")
+	persona4.addAddress("Africa")
 	fmt.Println(persona1, persona2, persona3, persona4)
 }
