@@ -1,6 +1,6 @@
 //вспомнить работу с строками
-//В конце темы есть задача - ее решить и выложить в
-//GITHUB (playground проверять не буду)
+//Расшифруйте цитату Юлия Цезаря: L fdph, L vdz, L frqtxhuhg. 
+//Зашифруйте сообщение на испанском: “Hola Estación Espacial Internacional”  через ROT13.
 package main
 
 import (
