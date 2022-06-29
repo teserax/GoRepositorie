@@ -1,0 +1,42 @@
+//вспомнить работу с строками
+//В конце темы есть задача - ее решить и выложить в
+//GITHUB (playground проверять не буду)
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	//str:="uv vagreangvbany fcnpr fgngvba"//hi international space station
+	//str1:=" L fdph, L vdz, L frqtxhuhg. "//I came, I saw, I conquered.
+	//	for i:=0;i<len(str1);i++{
+	//		c:=str1[i]
+	//		if c >= 'a' && c <= 'z'|| c >= 'A' && c <= 'Z'{ // Оставляет оригинальную пунктуацию и пробелы
+	//			c = c -3
+	//			if c > 'z' {
+	//				c = c +26
+	//			}
+	//		}
+	//		fmt.Printf("%c", c)
+	//
+	//	}
+	ispanStr := "Hola Estación Espacial Internacional"
+
+	for _, letter := range ispanStr {
+		if letter >= 'a' && letter <= 'z' {
+			letter = letter + 13
+			if letter > 'z' {
+				letter = letter - 26
+			}
+		} else if letter >= 'A' && letter <= 'Z' {
+			letter = letter + 13
+			if letter > 'Z' {
+				letter = letter - 26
+			}
+
+		}
+		fmt.Printf("%c", letter)
+	}
+
+}
