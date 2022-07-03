@@ -1,0 +1,51 @@
+//Чтобы помешать взломщикам кода, шифр Виженера
+//сдвигает каждую букву на основе повторяющегося
+//ключевого слова.
+// Ключевое слово повторяется до конца сообщения,
+//cipherText := "CSOITEUIWUIZNSROCNKFD"
+//как показано для ключевого слова GOLANG
+//keyword := "GOLANG"
+package main
+
+import "fmt"
+
+func main() {
+	cipherText := "CSOITEUIWUIZNSROCNKFD"
+	//str:="LFDPHLVDZLFRQTXHUHG"
+	keyword := "GOLANG"
+	slice := []string{"A", "B", "C", "D", "E",
+		"F", "G", "H", "I", "J",
+		"K", "L", "M", "N", "O",
+		"P", "Q", "R", "S", "T",
+		"U", "V", "W", "X", "Y", "Z"}
+	m := map[string]int{"A": 0, "B": 1, "C": 2, "D": 3, "E": 4,
+		"F": 5, "G": 6, "H": 7, "I": 8, "J": 9,
+		"K": 10, "L": 11, "M": 12, "N": 13,
+		"O": 14, "P": 15, "Q": 16, "R": 17,
+		"S": 18, "T": 19, "U": 20, "V": 21,
+		"W": 22, "X": 23, "Y": 24, "Z": 25,
+	}
+	result := ""
+	i := 0
+	total := 0
+	for _, c := range cipherText {
+		if i >= 6 {
+			i = 0
+		}
+		r := m[string(c)]
+		v := m[string(keyword[i])]
+		fmt.Println(string(keyword[i]))
+		total = r - v
+
+		if total < 0 {
+			total = 26 - (-total)
+
+			result += slice[total]
+		} else {
+			fmt.Printf("%d total", total)
+			result += slice[total]
+		}
+		i++
+	}
+	fmt.Print(result)
+}
