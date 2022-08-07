@@ -1,0 +1,83 @@
+
+package main
+
+import (
+	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
+)
+
+/*заказать билеты на фильм,выбрав зал
+и сеансюВвести количество билетов и
+определить их стоимость с учетом,
+если заказываеться более пяти
+билетов =скидка 5%,более 10= 10%
+   Красный зал- 'Хроники Нарнии' сеансы 12 часов -25гр,16-35гр,20-45гр
+   Синий зал-'Чужие' сеансы 10 часов -25гр,13-35гр,16-45гр
+   Голубой зал -'Аватар' сеансы 10 часов -35гр,14-35гр,18-45гр
+Предусмотреть обработку ошибок ввода
+ */
+const (
+	line="-------------------------------------------"
+)
+type cinemaHall struct {
+	 name string
+	movie string
+	sessionPrice map[int]int
+
+}
+func (c cinemaHall)Info()string{
+	 var str string
+	for time,price:=range c.sessionPrice{
+		str+="время "+strconv.Itoa(time)+" часов и цена: "+strconv.Itoa(price)+"\n"
+	}
+	return fmt.Sprintf("%s\n В _%s_ можно посмотреть фильм\n %s\n   %20s\n%s \n%s",line,c.name,line,c.movie,line,str)
+}
+
+func stringValidation(str string) bool {
+	str = strings.ToLower(str)
+	fmt.Println(str)
+	m, _ := regexp.MatchString("^[а-яА-Я]", str)
+	switch {
+	case str=="красный":
+		return m
+	case str =="синий зал":
+		return m
+	case str=="":
+		return false
+	}
+	return false
+}
+func main(){
+
+fmt.Println("Приветствуем в нашем кинотеатре")
+redHall:=cinemaHall{
+	name:    "Красном зале",
+	movie:  "Хроники Нарнии",
+	sessionPrice: map[int]int {12:25,16:35,20:45},
+}
+	blueHall:=cinemaHall{
+		name:    "Синем зале",
+		movie:  "Чужие",
+		sessionPrice: map[int]int {10:25,13:35,16:45},
+	}
+	yelloHall:=cinemaHall{
+		name:         "желтом зале",
+		movie:        "Аватар",
+		sessionPrice: map[int]int{10:35,14:35,15:45},
+	}
+	fmt.Print(redHall.Info(),blueHall.Info(),yelloHall.Info())
+	printName:
+	fmt.Println("Введите название зала")
+	var nameHall string
+	fmt.Scan(&nameHall)
+	if  stringValidation(nameHall)==false{
+		fmt.Println("Вы ввели некорректное название")
+		goto printName
+	}
+fmt.Println(nameHall)
+}
+//проверить корректность вводимой цены и желательно красный зал надо разобраться
+//потом сложить сумму всех билетов и настроить счечик количества билетов если больше 5 то %5
+//или 10, то 10% ну и в конце вывести все купленные билеты количество на какой сеанс 
