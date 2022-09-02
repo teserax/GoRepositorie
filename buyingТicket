@@ -1,0 +1,182 @@
+
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"unicode"
+)
+
+/*Заказать билеты на фильм,выбрав зал
+и сеанс Ввести количество билетов и
+определить их стоимость с учетом,
+если заказывается более пяти
+билетов =скидка 5%,более 10= 10%
+   Красный зал- 'Хроники Нарнии' сеансы 12 часов -25гр,16-35гр,20-45гр
+   Синий зал-'Чужие' сеансы 10 часов -25гр,13-35гр,16-45гр
+   желтый зал -'Аватар' сеансы 10 часов -35гр,14-35гр,18-45гр
+Предусмотреть обработку ошибок ввода
+ */
+const (
+	line="-------------------------------------------"
+)
+var start =1
+
+type cinemaHall struct {
+	 name string
+	movie string
+	sessionPrice map[string]int
+}
+type visitorChoice struct{
+	hallName string
+	movie string
+	totalPrice int
+}
+func (v visitorChoice) Info()string{
+	return fmt.Sprintf("Вы выбрали просмотр %s \n Фильм %5s\n Итого к оплате:%5d",v.hallName,v.movie,v.totalPrice)
+}
+func (c cinemaHall)Info()string{
+	 var str string
+	for time,price:=range c.sessionPrice{
+		str+="время "+time+" часов и цена: "+strconv.Itoa(price)+"\n"
+	}
+	return fmt.Sprintf("%s\n В _%s_ можно посмотреть фильм\n %s\n   %20s\n%s \n%s",line,c.name,line,c.movie,line,str)
+}
+
+//Функция для выбора сеанса
+func sessionSelection(name cinemaHall) bool {
+	var session string
+	numberOfTickets:=0
+	visitor:=visitorChoice{}
+	sel:=""
+
+		fmt.Printf("Вы выбрали для просмотра %s и фильм '%s'\n",name.name,name.movie)
+		fmt.Println("Продолжить? да/нет")
+		fmt.Scan(&sel)
+		if sel != "да" {
+			return false
+		}else {
+			visitor.hallName=name.name
+			visitor.movie=name.movie
+
+		start:
+			var priceInfo, sesTime string
+			for time,price:= range name.sessionPrice{
+				priceInfo+=fmt.Sprintf("%s часов - цена %dгр\n",time,price)
+				sesTime+=time+","
+			}
+			timeSession:=[]string{}
+			timeSession=strings.Split(sesTime,",")
+			fmt.Println("выберите время сеанса")
+			fmt.Print(priceInfo)
+			fmt.Scan(&session)
+			if session != timeSession[0]&&session != timeSession[1]&&session != timeSession[2]{
+				fmt.Println("Вы ввели некорректное время сеанса ")
+				goto start
+			} else {
+				Tickets:
+				fmt.Println("Введите количество билетов")
+				fmt.Scan(&numberOfTickets)
+				if numberOfTickets!=0&& numberOfTickets>0{
+					if numberOfTickets<5 {
+						visitor.totalPrice=numberOfTickets*name.sessionPrice[session]
+
+					}else if numberOfTickets>=5&&numberOfTickets<10{
+						rest:=float64(numberOfTickets*name.sessionPrice[session])*0.05
+						visitor.totalPrice=numberOfTickets*name.sessionPrice[session]-int(rest)
+					}else if numberOfTickets>=10{
+						rest:=float64(numberOfTickets*name.sessionPrice[session])*0.1
+						visitor.totalPrice=numberOfTickets*name.sessionPrice[session]-int(rest)
+					}
+				}else {
+					fmt.Println("Некорректное количество билетов")
+					goto Tickets
+				}
+			}
+			fmt.Println(visitor.Info())
+			reselectionHall( )
+		}
+	return true
+}
+
+//Функция проверки правильности ввода названия зала
+func stringValidation(str string) bool {
+	for _, r := range str {
+		if unicode.Is(unicode.Cyrillic, r) {
+			return true
+		}
+	}
+	return false
+}
+func main(){
+
+fmt.Println("Приветствуем в нашем кинотеатре")
+redHall:=cinemaHall{
+	name:    "красный зал",
+	movie:  "Хроники Нарнии",
+	sessionPrice: map[string]int {"12:00":25,"16:00":35,"20:00":45},
+}
+	blueHall:=cinemaHall{
+		name:    "синий зал",
+		movie:  "Чужие",
+		sessionPrice: map[string]int {"11:00":25,"15:00":35,"19:00":45},
+	}
+	yellowHall :=cinemaHall{
+		name:         "желтый зал",
+		movie:        "Аватар",
+		sessionPrice: map[string]int {"13:00":25,"17:00":35,"21:00":45},
+	}
+	fmt.Print(redHall.Info(),blueHall.Info(), yellowHall.Info())
+	for start>0{
+	printName:
+		nameHall:=hallNameInputCheck()
+	 cinemaName:=cinemaHall{}
+
+		if !stringValidation(nameHall){
+			fmt.Println("Вы ввели некорректное название тут")
+			goto printName
+		}
+	var hallSelection bool
+	switch {
+	case nameHall==redHall.name:
+		cinemaName=redHall
+		hallSelection=true
+	case nameHall==blueHall.name:
+		cinemaName=blueHall
+		hallSelection=true
+	case nameHall==yellowHall.name:
+		cinemaName=yellowHall
+		hallSelection=true
+	}
+		if  hallSelection==false||!sessionSelection(cinemaName){
+			fmt.Println("Вы ввели некорректное название")
+			goto printName
+		}
+
+	start-=1
+}
+}
+
+//Функция проверки правильности ввода названия зала
+func hallNameInputCheck()string{
+	fmt.Println("Введите название зала:")
+
+	reader := bufio.NewReader(os.Stdin)
+	n, _ := reader.ReadString('\n')
+	nameHall:=strings.TrimSpace(n)
+	return nameHall
+}
+func reselectionHall( )  {
+	var next string
+	fmt.Println("Приобрести билеты на другой сеанс да/нет")
+	fmt.Scan(&next)
+	if next != "да" {
+		fmt.Printf("%s\n Спасибо что посетили наш кинотеатр \n%s",line,line)
+	}else {
+		start++
+	}
+}
+
