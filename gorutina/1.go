@@ -1,6 +1,6 @@
 package main
 
-//подсчет суммы чисел в слаисе
+//Calculating the sum of numbers in a slice
 import "fmt"
 
 func main() {
