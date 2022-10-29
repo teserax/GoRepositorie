@@ -1,0 +1,4 @@
+
+{"id":"1", "address":"Balt"}
+{"id":"2", "address":"Chisinau"}
+{"id":"3", "address":"Chisinau"}
