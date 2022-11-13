@@ -21,19 +21,19 @@ func numbers(n int, inter, workTime time.Duration, ch chan int) chan int {
 
 	select {
 	case <-timer:
+		fmt.Println("timeout")
 		close(ch)
 		interval.Stop()
-		fmt.Println("timeout")
+
 	case <-interval.C:
 		coler := make([]struct{}, n)
 
 		var wg1 = new(sync.WaitGroup)
-
+		maxNumberGenerat := 10
 		for range coler {
 			wg1.Add(1)
 			go func() {
-
-				gn := rand.Intn(10) + 1
+				gn := rand.Intn(maxNumberGenerat) + 1
 				ch <- gn
 				wg1.Done()
 			}()
@@ -41,35 +41,37 @@ func numbers(n int, inter, workTime time.Duration, ch chan int) chan int {
 		go func() {
 			defer close(ch)
 			wg1.Wait()
-
 		}()
 	}
 	return ch
 }
+func mult(ch chan int) {
+	for range ch {
 
-func numberProcessing(ch chan int) {
-	coler := [10]struct{}{}
-
-	var wg = new(sync.WaitGroup)
-	for v := range ch {
-		for range coler {
-			wg.Add(1)
-			go func() {
-				fmt.Println(v)
-				wg.Done()
-			}()
-		}
-		go func() {
-			wg.Wait()
-
-		}()
 	}
-
 }
 
 func main() {
 	ch := make(chan int)
+	ch2 := make(chan int)
 	rand.Seed(time.Now().UnixNano())
-	ch2 := numbers(10, 1, 10, ch)
-	numberProcessing(ch2)
+	numbers(10, 1, 1, ch)
+	var wg = new(sync.WaitGroup)
+
+	for v := range ch {
+		if v == 10 {
+			fmt.Println("maximum number generated exit")
+			return
+		} else {
+			ch2 <- v
+			go mult(ch2)
+		}
+
+	}
+	go func() {
+		defer close(ch)
+		wg.Wait()
+
+	}()
+
 }
