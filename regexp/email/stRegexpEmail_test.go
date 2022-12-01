@@ -1,10 +1,31 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
+
+type EmailSearch struct {
+	str, expected string
+}
+
+var emailTest = []EmailSearch{
+	EmailSearch{"", "steeles80@gmail.ru"},
+	EmailSearch{"аоволаровларлв", "steeles80@gmail.ru"},
+	EmailSearch{"@@@@@@", "steeles80@gmail.ru"},
+	EmailSearch{"@Dfdf@dfdf.@", "steeles80@gmail.ru"},
+	EmailSearch{"ffff.@", "steeles80@gmail.ru"},
+	EmailSearch{"FFF@.ff.f", "steeles80@gmail.ru"},
+	EmailSearch{"steeles80@gmail.ru", "steeles80@gmail.ru"},
+}
 
 func TestEmailSearch(t *testing.T) {
-	s := "dadadad steeles80@@@m34ail.ru ijsifsdfsd steeles80@mail.ru steeles80@m34ail..ru qeqeqw eqeqweq@sfsdf sadad42@3df@dfgdf.ouo stee/[les80@m34ail.ru"
-	if col := emailSearch(s); col != "steeles80@mail.ru" {
-		t.Errorf("Expected '%s', but got '%s'", "steeles80@mail.ru", col)
+	for i, test := range emailTest {
+		if col := emailSearch(test.str); col != test.expected {
+			t.Errorf("%d.Expected '%s', but got '%s'", i, test.expected, col)
+		} else {
+			fmt.Printf("%d---PASS---\n ", i)
+		}
 	}
+
 }
