@@ -22,9 +22,9 @@ var emailTest = []EmailSearch{
 func TestEmailSearch(t *testing.T) {
 	for i, test := range emailTest {
 		if col := emailSearch(test.str); col != test.expected {
-			t.Errorf("%d.Expected '%s', but got '%s'", i, test.expected, col)
+			t.Errorf("%d.Expected '%s', but got '%s'", i+1, test.expected, col)
 		} else {
-			fmt.Printf("%d---PASS---\n ", i)
+			fmt.Printf("№.%d---PASS---\n ", i+1)
 		}
 	}
 
