@@ -1,0 +1,9 @@
+{
+ "CardNumber": 0,
+ "Age": 0,
+ "BloodType": "",
+ "Diagnosis": "",
+ "FirstName": "",
+ "LastName": "",
+ "Patronymic": ""
+ }
