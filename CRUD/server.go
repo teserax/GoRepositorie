@@ -69,7 +69,7 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-
+//чтение фаила
 	file, err := os.Open("test.txt")
 	if err != nil {
 		log.Fatalf("Error when opening file: %s", err)
@@ -77,8 +77,9 @@ func edit(w http.ResponseWriter, r *http.Request) {
 
 	fileScanner := bufio.NewScanner(file)
 	s := []string{}
+	
 	for fileScanner.Scan() {
-		s = append(s, strings.Split(fileScanner.Text(), "\n")...)
+		s = append(s, strings.Split(fileScanner.Text(), "\n")...)//запись полученых данных в слаис и разделение на отдельные сторки
 
 	}
 	if err := fileScanner.Err(); err != nil {
@@ -87,7 +88,7 @@ func edit(w http.ResponseWriter, r *http.Request) {
 
 	defer file.Close()
 	number, err := strconv.Atoi(values[id][0])
-	s[number] = values[body][0]
+	s[number] = values[body][0]//замена искомой строки
 	fmt.Println(s)
 
 	f, err := os.OpenFile("test.txt",
@@ -102,7 +103,7 @@ func edit(w http.ResponseWriter, r *http.Request) {
 		data = append(data, []byte(s[i]+"\n")...)
 
 	}
-	err = ioutil.WriteFile("test.txt", data, 0777)
+	err = ioutil.WriteFile("test.txt", data, 0777)// запись измененых данных в фаил 
 	if err != nil {
 		// Если произошла ошибка выводим ее в консоль
 		fmt.Println(err)
