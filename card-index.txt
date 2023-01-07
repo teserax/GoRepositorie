@@ -1,9 +1,38 @@
-{
- "CardNumber": 0,
- "Age": 0,
- "BloodType": "",
- "Diagnosis": "",
- "FirstName": "",
- "LastName": "",
- "Patronymic": ""
+[
+ {
+ "CardNumber": 1,
+ "Age": 15,
+ "BloodType": "AO",
+ "Diagnosis": "test",
+ "FirstName": "Petrov",
+ "LastName": "Serghei",
+ "Patronymic": "qww"
+ },
+ {
+ "CardNumber": 2,
+ "Age": 32,
+ "BloodType": "AA",
+ "Diagnosis": "test",
+ "FirstName": "Ivanov",
+ "LastName": "Andrei",
+ "Patronymic": "qggg"
+ },
+ {
+ "CardNumber": 3,
+ "Age": 56,
+ "BloodType": "AO",
+ "Diagnosis": "top",
+ "FirstName": "Sidorov",
+ "LastName": "Petar",
+ "Patronymic": "qhhh"
+ },
+ {
+ "CardNumber": 4,
+ "Age": 67,
+ "BloodType": "AB",
+ "Diagnosis": "test",
+ "FirstName": "Kozlov",
+ "LastName": "Ivan",
+ "Patronymic": "qkkk"
  }
+ ]
