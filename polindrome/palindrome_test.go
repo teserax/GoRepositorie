@@ -9,7 +9,7 @@ func TestPolidrome(t *testing.T) {
 		"ттопотт",
 		"aabbaa",
 		"fire",
-		"wow",
+		"wo",
 	}
 	for _, testStr := range s {
 		tes := polindrome(testStr)
