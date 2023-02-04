@@ -10,6 +10,7 @@ func TestPolidrome(t *testing.T) {
 		"aabbaa",
 		"fire",
 		"wo",
+		"$%%$",
 	}
 	for _, testStr := range s {
 		tes := polindrome(testStr)
